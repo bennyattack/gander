@@ -5,20 +5,17 @@ import sys
 def main():
 
     confrev = 1
+    ied_name="SS_H199B"   
+    inst='Master'
+    gocb='SS_H199B_GOCB1'
+    dataset='SS_H199B_GODS1'
+
+    gocbref=ied_name+inst+"/LLN0$GO$"+gocb
+    datasetref=ied_name+inst+"/LLN0$"+dataset
+    goid="SS_H199B_Trips"
+    appid="8103"
     # Destination (Multicast) MAC Address
     ied_macaddress = "01:0C:CD:01:0B:03"
-    ied_name="GOOSE_PUBL"
-    #App ID
-    appid="0B03"
-    # GOOSE Control Block 
-    gocbref='GOOSE_PUBLTO_RCU22001/LLN0$GO$RCU22001_GrAct' 
-    # e.g. SS_G199AApplication/LLN0$GO$SS_G199A_GOCB1
-    # GOOSE Dataset Reference
-    datasetref='GOOSE_PUBLTO_RCU22001/LLN0$Dataset1' 
-    # e.g. SS_G199AApplication/LLN0$SS_G199A_GODS1
-    #GOOSE ID
-    goid="RCU22001_GrAct" 
-    # e.g. SS_G199A_Trips
     
     interface="enp2s0" 
 
@@ -38,7 +35,8 @@ def main():
             val = True if j == i else False
             switches.append(val) 
 
-        print("Values in packet #", str(i+1), ": ", sep='', end='')
+        # display values which will be published 
+        print("Values in packet #", str(i+1), ":\t", sep='', end='')
         print(switches)
         
         # dump values from switch list into Dataset
