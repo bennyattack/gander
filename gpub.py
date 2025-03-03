@@ -4,27 +4,25 @@ import sys
 
 def main():
 
+    # all this will be populated using data from CIDex.py
     confrev = 1
     ied_name="SS_H199B"   
-    inst='Master'
-    gocb='SS_H199B_GOCB1'
-    dataset='SS_H199B_GODS1'
-
-    gocbref=ied_name+inst+"/LLN0$GO$"+gocb
-    datasetref=ied_name+inst+"/LLN0$"+dataset
+    inst="Master"
+    gocb="SS_H199B_GOCB1"
+    dataset="SS_H199B_GODS1"    
+    ied_macaddress = "01:0C:CD:01:0B:03" # destination (Multicast) MAC Address
     goid="SS_H199B_Trips"
     appid="8103"
-    # Destination (Multicast) MAC Address
-    ied_macaddress = "01:0C:CD:01:0B:03"
-    
-    interface="enp2s0" 
+    vlan_id = 153
+    vlan_pri = 4
+    # construct CB and DS reference strings
+    gocbref=ied_name+inst+"/LLN0$GO$"+gocb
+    datasetref=ied_name+inst+"/LLN0$"+dataset   
 
+    interface="enp2s0" # name of ethernet interface
     
-
     numItems = 13
-
-    # iec61850.LinkedList_add(dataSetValues, iec61850.MmsValue_newIntegerFromInt32(5))
-
+  
     for i in range(numItems):  
         # create linked list for dataset items
         dataSetValues = iec61850.LinkedList_create()
@@ -43,13 +41,14 @@ def main():
         for k in range(numItems):
             iec61850.LinkedList_add(dataSetValues, iec61850.MmsValue_newBoolean(switches[k]))
             iec61850.LinkedList_add(dataSetValues, iec61850.MmsValue_newBitString(4))
-    
-            
+            # iec61850.LinkedList_add(dataSetValues, iec61850.MmsValue_newIntegerFromInt32(5))
+
+           
         gooseCommParameters = iec61850.CommParameters()
 
         gooseCommParameters.appId = int(appid, 16)
-        gooseCommParameters.vlanId = 0
-        gooseCommParameters.vlanPriority = 4
+        gooseCommParameters.vlanId = vlan_id
+        gooseCommParameters.vlanPriority = vlan_pri
 
         hex_parts = ied_macaddress.split(":")
         dst_mac_address = [int(part, 16) for part in hex_parts]
