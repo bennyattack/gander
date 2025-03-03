@@ -38,7 +38,7 @@ def main():
             val = True if j == i else False
             switches.append(val) 
 
-        print("Values in packet #"+str(i+1)+": ", end='')
+        print("Values in packet #", str(i+1), ": ", sep='', end='')
         print(switches)
         
         # dump values from switch list into Dataset
